@@ -1,1 +1,1 @@
-export { default, TValidatorFn } from './jet-validator';
+export { default, TValidatorFn, TAll } from './jet-validator';

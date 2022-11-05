@@ -9,9 +9,9 @@ export const defaultErrMsg = 'One or more of the required params was ' +
 
 // **** Types **** //
 
-type TAll = string | number | boolean | null | undefined | object;
-type TLoopFn = (req: Request) => boolean;
+export type TAll = string | number | boolean | null | undefined | object;
 export type TValidatorFn =  ((arg: TAll) => boolean);
+type TLoopFn = (req: Request) => boolean;
 type TReqObjProps = 'body' | 'query' | 'params';
 
 type TParamArr = {
