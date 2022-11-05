@@ -1,42 +1,4 @@
-
-/**
- * This function returns a middleware-function that validates the parameters 
- * provided. Each argument can be a string or array.
- * 
- * If the argument is an array the format is:
- * ['paramName', '(optional) type or validator function (default is string)', 
- * '(optional) property on "req" to extract the value from (default is body')]
- * 
- * If a string, 'validate' makes sure the param is of type string on req.body.
- * For the array, 'validate' makes sure the parameter is of the specified type
- * or that the parameter satifies the validator function. The validator  
- * function must return 'true' or 'false'.
- * 
- * **NOTE**: For numbers, strings which evalute to (!isNaN('string') => true)
- * are valid for req.query and req.params. But on req.body a number should be
- * 'typeof toCheck === "number"'
- * 
- * **NOTE**: For booleans, on req.body must be true or false, on req.query or
- * req.params must be 'true' or 'false'.
- * 
- * Sample argument: ['id', 'number'], id is the incoming variable, 'number' 
- * is the type, and body is where to extract 'id' from.
- * 
- * Example 1: validate('email', ['user', 'object'], ['id', 'number', 'params'])
- *  will check that 'email' is a string in req.body, that user is of type 
- *  object in req.body, and that 'id' is a boolean in req.params.
- * Example 2: validate('password') will check that 'password' is a string on
- *  req.body.
- * Example 3: validate(['isAdmin', 'boolean']) will check that 'isAdmin' is a 
- *  boolean on req.body
- * Example 4: validate(['user', isInstanceOfUser]) will check that 'user' 
- *  satifies the 'isInstanceOfUser()' function.
- * Example 5: validate(['email']) will check that 'email' is a string in 
- *  req.body,
- */
-
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-
 
 
 // **** Variables **** //
@@ -67,7 +29,10 @@ interface IParamFields {
 
 // **** Functions **** //
 
-function jetValidator(errorCode?: number, errMsg?: string) {
+/**
+ * Entry point. Returns validate middleware function.
+ */
+function jetValidator(errCode?: number, errMsg?: string) {
   return (...params: Array<string | TParamArr>): RequestHandler => {
     // Return middlware function
     const loopFns: TLoopFn[] = getLoopFns(params)
@@ -75,7 +40,7 @@ function jetValidator(errorCode?: number, errMsg?: string) {
       for (const loopFn of loopFns) {
         if (!loopFn(req)) {
           return res
-            .status(errorCode ?? 400)
+            .status(errCode ?? 400)
             .json({ error: (errMsg ?? defaultErrMsg) });
         }
       }

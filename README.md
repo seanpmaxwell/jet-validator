@@ -7,10 +7,10 @@
 
 - Call the `jetValidator()` function to return the `validate()` middleware function. 
 If the validation fails, validate will return a `400` error with a default error message.
-If you want to change this, you can pass `jet-validator()` two option params, `errCode` 
+If you want to change this, you can pass `jetValidator()` two optional params, `errCode` 
 and `errMsg`.
 
-- Arguments to `validate()` must be a string or an array. If they're a string, `validate`
+- Arguments to `validate` must be a string or an array. If they're a string, `validate`
 will make sure they are string on `req.body`.
 
 ```typescript
@@ -18,11 +18,11 @@ import express, { Request, Response } from 'express';
 import jetValidator from 'jet-validator';
 
 const app = express();
-const validate = jetValidator(...optional_params);
+const validate = jetValidator();
 
 app.post(
   '/api/v1/login/local',
-  validate('email', 'password'),
+  validate('email', 'password'), // will check that email and password are strings on req.body
   (req: Request, res: Response) => {
     const { email, password } = req.body;
     ...etc,
@@ -49,7 +49,7 @@ app.post(
 the parameter satifies the validator function. The validator function must return `true` 
 or `false`.
 
-- Sample array1: `['id', 'number', 'body']`. This will make sure id is of type `number` on `req.body`.
+- Sample array1: `['id', 'number', 'body']`. This will make sure `id` is of type `number` on `req.body`.
 - Sample array2: `['email', isEmail]`. This will make sure `req.body.email` satifies the `isEmail` function.
 
 - Note for numbers on `req.query` and `req.params`: number-strings which pass `!isNaN()` are still valid. 
@@ -65,7 +65,7 @@ but on `req.body` a boolean should  `typeof booleanStringtoCheck === "boolean"`.
 check that `email` is a `string` in `req.body`, that `user` is of type `object` in `req.body`, 
 and that `id` is a `boolean` in `req.params`.
 
-- Example 2: `validate('password')` will check that `password` is a `string on` `req.body`.
+- Example 2: `validate('password')` will check that `password` is a `string` on `req.body`.
 
 - Example 3: `validate(['isAdmin', 'boolean'])` will check that `isAdmin` is a `boolean` on `req.body`.
 
