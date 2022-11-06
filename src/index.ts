@@ -1,1 +1,6 @@
-export { default, TValidatorFn, TAll } from './jet-validator';
+export {
+  default,
+  TValidatorFn,
+  TAll,
+  defaultErrMsg,
+} from './jet-validator';
