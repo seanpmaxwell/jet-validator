@@ -1,6 +1,6 @@
 {
   "name": "jet-validator",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Validation middleware for ExpressJS routes",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
