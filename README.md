@@ -41,7 +41,7 @@ app.post(
   [
     'paramName',
     '(optional) type or validator function (default is string)', 
-    '(optional) property on "express.Request" to extract the value from (default is body')
+    '(optional) property on "express.Request" to extract the value from (default is .body')
   ]
 ```
 
@@ -63,7 +63,7 @@ but on `req.body` a boolean should  `typeof booleanStringtoCheck === "boolean"`.
 
 - Example 1: `validate('email', ['user', 'object'], ['id', 'number', 'params'])` will 
 check that `email` is a `string` in `req.body`, that `user` is of type `object` in `req.body`, 
-and that `id` is a `boolean` in `req.params`.
+and that `id` is a `number` in `req.params`.
 
 - Example 2: `validate('password')` will check that `password` is a `string` on `req.body`.
 
