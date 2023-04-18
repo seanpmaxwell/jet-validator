@@ -1,9 +1,13 @@
-# Created by .ignore support plugin (hsz.mobi)
-
 # ignore dev files
-src
+lib/**/*.ts
+test/
 
 # not needed npm stuff
 package-lock.json
 node_modules
 tsconfig.json
+tsconfig.build.json
+.eslintrc.json
+
+# include typings files
+!*.d.ts
