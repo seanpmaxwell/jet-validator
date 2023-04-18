@@ -1,7 +1,8 @@
 # Jet-Validator
 
 > A super quick, easy to setup validation middleware function for ExpresssJS routes.
-> Written in typescript thus fully typesafe :)
+> Written in typescript for typesafe :)
+
 
 ## Quick start
 
@@ -12,6 +13,8 @@ and `errMsg`.
 
 - Arguments to `validate` must be a string or an array. If they're a string, `validate`
 will make sure they are string on `req.body`.
+
+- Note: `json()` and `urlencoded()` middleware must be added.
 
 ```typescript
 import express, { Request, Response } from 'express';
@@ -29,6 +32,7 @@ app.post(
   },
 );
 ```
+
 
 ## Guide
 

@@ -1,3 +1,7 @@
+/**
+ * Core library folder.
+ */
+
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 
 
@@ -9,8 +13,7 @@ export const defaultErrMsg = 'One or more of the required params was ' +
 
 // **** Types **** //
 
-export type TAll = string | number | boolean | null | undefined | object;
-export type TValidatorFn =  ((arg: TAll) => boolean);
+export type TValidatorFn =  (arg: unknown) => boolean;
 type TLoopFn = (req: Request) => boolean;
 type TReqObjProps = 'body' | 'query' | 'params';
 
@@ -35,7 +38,7 @@ interface IParamFields {
 function jetValidator(errCode?: number, errMsg?: string) {
   return (...params: Array<string | TParamArr>): RequestHandler => {
     // Return middlware function
-    const loopFns: TLoopFn[] = getLoopFns(params)
+    const loopFns: TLoopFn[] = getLoopFns(params);
     return (req: Request, res: Response, next: NextFunction) => {
       for (const loopFn of loopFns) {
         if (!loopFn(req)) {
@@ -46,7 +49,7 @@ function jetValidator(errCode?: number, errMsg?: string) {
       }
       return next();
     };
-  }
+  };
 }
 
 /**
@@ -202,11 +205,11 @@ function checkDefault(
 function getLoopFn(
   reqObjProp: TReqObjProps,
   paramName: string,
-  cb: (toCheck: TAll) => boolean,
+  cb: (toCheck: unknown) => boolean,
 ): TLoopFn {
   return (req: Request) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const toCheck = req[reqObjProp][paramName] as TAll;
+    const toCheck = req[reqObjProp][paramName] as unknown;
     return cb(toCheck);
   };
 }

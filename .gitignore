@@ -1,2 +1,5 @@
-node_modules
-dist
+**/node_modules
+**/lib/**/*.d.ts
+**/lib/**/*.js
+**/lib/**/*.js.map
+**/**/*.log
