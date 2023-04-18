@@ -1,5 +1,5 @@
 export {
   default,
   TValidatorFn,
-  defaultErrMsg,
+  ERR_MSG as defaultErrMsg,
 } from './jet-validator';

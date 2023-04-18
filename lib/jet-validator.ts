@@ -7,8 +7,7 @@ import { Request, Response, NextFunction, RequestHandler } from 'express';
 
 // **** Variables **** //
 
-export const defaultErrMsg = 'One or more of the required params was ' + 
-  'missing or invalid.';
+export const ERR_MSG = 'The following parameter was missing or invalid: ';
 
 
 // **** Types **** //
@@ -29,22 +28,26 @@ interface IParamFields {
   reqObjProp: TReqObjProps;
 }
 
+interface ILoopItem {
+  paramName: string;
+  fn: TLoopFn;
+}
+
 
 // **** Functions **** //
 
 /**
  * Entry point. Returns validate middleware function.
  */
-function jetValidator(errCode?: number, errMsg?: string) {
+function jetValidator(errCode?: number) {
   return (...params: Array<string | TParamArr>): RequestHandler => {
     // Return middlware function
-    const loopFns: TLoopFn[] = getLoopFns(params);
+    const itemArr: ILoopItem[] = getLoopFns(params);
     return (req: Request, res: Response, next: NextFunction) => {
-      for (const loopFn of loopFns) {
-        if (!loopFn(req)) {
-          return res
-            .status(errCode ?? 400)
-            .json({ error: (errMsg ?? defaultErrMsg) });
+      for (const item of itemArr) {
+        if (!item.fn(req)) {
+          const error = ERR_MSG + `"${item.paramName}".`;
+          return res.status(errCode ?? 400).json({ error });
         }
       }
       return next();
@@ -55,9 +58,9 @@ function jetValidator(errCode?: number, errMsg?: string) {
 /**
  * See comments at beginning of file on usage.
  */
-function getLoopFns(params: Array<string | TParamArr>): TLoopFn[] {
+function getLoopFns(params: Array<string | TParamArr>): ILoopItem[] {
   // Setup loop-function array
-  const loopFns: TLoopFn[] = [];
+  const retVal: ILoopItem[] = [];
   for (const param of params) {
     const { paramName, type, reqObjProp } = getParamFields(param);
     let loopFn: TLoopFn = () => false;
@@ -73,10 +76,13 @@ function getLoopFns(params: Array<string | TParamArr>): TLoopFn[] {
     } else {
       loopFn = checkDefault(reqObjProp, paramName, type);
     }
-    loopFns.push(loopFn);
+    retVal.push({
+      paramName,
+      fn: loopFn,
+    });
   }
   // Return
-  return loopFns;
+  return retVal;
 }
 
 /**
@@ -195,7 +201,7 @@ function checkDefault(
   type: string,
 ): TLoopFn {
   return getLoopFn(reqObjProp, paramName, (toCheck) => {
-    return (toCheck === type);
+    return (typeof toCheck === type);
   });
 }
 

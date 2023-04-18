@@ -28,9 +28,19 @@ app.get('/', (_: Req, res: Res) => {
   return res.status(200).send(SERVER_MSG);
 });
 
-// Test "res.body.email" is a string
-app.post('/test-string-on-body', validate('email'), (_: Req, res: Res) => {
-  console.log('"/test-string-on-body" called');
+// Test "req.body.user" is an object, and req.params.id is a number.
+app.post(
+  '/example-1/:id',
+  validate('email', ['user', 'object'], ['id', 'number', 'params']),
+  (_: Req, res: Res) => {
+    console.log('"/example-1" called');
+    return res.status(200).end();
+  }
+);
+
+// Test req.body.password is a string.
+app.post('/example-2', validate('password'), (_: Req, res: Res) => {
+  console.log('"/example-2" called');
   return res.status(200).end();
 });
 
