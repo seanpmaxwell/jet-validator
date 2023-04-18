@@ -104,12 +104,14 @@ function getParamFields(param: string | TParamArr): IParamFields {
       throw Error('param name must be a string');
     }
     // Get the type
-    if (typeof param[1] === 'string') {
-      type = param[1];
-    } else if (typeof param[1] === 'function') {
-      type = 'function';
-    } else {
-      throw Error('param[1] must be a string or a validator function');
+    if (param.length > 1) {
+      if (typeof param[1] === 'string') {
+        type = param[1];
+      } else if (typeof param[1] === 'function') {
+        type = 'function';
+      } else {
+        throw Error('param[1] must be a string or a validator function');
+      }
     }
     // Get the request object property
     const prop = (param.length >= 3 ? param[2] : 'body');
