@@ -1,7 +1,7 @@
 # Jet-Validator
 
 > A super quick, easy to setup validation middleware function for ExpresssJS routes.
-> Written in typescript for typesafe :)
+> Written in typescript ann fully typesafe :)
 
 
 ## Quick start
@@ -55,8 +55,7 @@ app.post(
 
 - Note for numbers on `req.query` and `req.params`: number-strings which pass `!isNaN()` are still valid. But on `req.body` a number should be `typeof toCheck === "number"`.
 
-- For booleans on `req.query` and `req.params`: boolean strings should be `"true"` or `"false"`,
-but on `req.body` a boolean should  `typeof toCheck === "boolean"`.
+- For booleans on `req.query` and `req.params`: boolean strings should be `"true"` or `"false"`, but on `req.body` a boolean should  `typeof toCheck === "boolean"`.
 
 
 ## More examples
