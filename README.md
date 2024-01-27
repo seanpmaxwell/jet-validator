@@ -1,7 +1,7 @@
 # Jet-Validator
 
 > A super quick, easy to setup validation middleware function for ExpresssJS routes.
-> Written in typescript ann fully typesafe :)
+> Written in typescript and fully typesafe :)
 
 
 ## Quick start
